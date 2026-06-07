@@ -82,6 +82,7 @@ export class GymLevel extends Phaser.Scene {
       new_wave:    this.sound.add('sfx_new_level',   { volume: 0.8 }),
       game_start:  this.sound.add('sfx_game_start',  { volume: 0.7 }),
       game_over:   this.sound.add('sfx_game_over',   { volume: 0.8 }),
+      boy_hurt:    this.sound.add('sfx_boy_hurt',    { volume: 0.8 }),
     };
   }
 
@@ -183,6 +184,7 @@ export class GymLevel extends Phaser.Scene {
     this.hp--;
     this._updateHpBar();
 
+    this.sfx.boy_hurt.play();
     // Flash red
     this.player.setTint(0xff4444);
     this.time.delayedCall(200, () => this.player.clearTint());

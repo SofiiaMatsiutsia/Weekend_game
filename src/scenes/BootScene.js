@@ -10,6 +10,7 @@ export class BootScene extends Phaser.Scene {
     this.load.audio('sfx_new_level',  '/audio/sound/new_level.mp3');
     this.load.audio('sfx_game_start', '/audio/sound/game_start.mp3');
     this.load.audio('sfx_game_over',  '/audio/sound/game_over.mp3');
+    this.load.audio('sfx_boy_hurt',   '/audio/sound/boy_hurt.mp3');
   }
 
   create() {
