@@ -2,84 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gym Level - Game Fox</title>
+  <title>Gym Level</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      width: 100%;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #1a1a1a;
-      font-family: monospace;
-      color: #00ff00;
+      width: 100%; height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      background: #1a1a1a; font-family: monospace; color: #00ff00;
     }
-
-    #game-container {
-      border: 2px solid #00ff00;
-      box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
-      background: #000;
-    }
-
-    .info {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid #00ff00;
-      padding: 10px;
-      font-size: 12px;
-      line-height: 1.5;
-      max-width: 200px;
-    }
-
-    .info h2 {
-      margin-bottom: 8px;
-      color: #ffff00;
-    }
-
-    .info p {
-      margin: 4px 0;
-    }
-
-    .controls {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid #00ff00;
-      padding: 10px;
-      font-size: 12px;
-      text-align: right;
+    #game-container { border: 2px solid #00ff00; background: #000; }
+    #error-box {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0;
+      background: #300; color: #f88; padding: 8px; font-size: 11px;
+      white-space: pre-wrap; max-height: 160px; overflow: auto; z-index: 9999;
     }
   </style>
 </head>
 <body>
-  <div class="info">
-    <h2>GYM LEVEL</h2>
-    <p><strong>Boy Character</strong></p>
-    <p>Idle & Run animations</p>
-    <p>Debug mode enabled</p>
-  </div>
-
   <div id="game-container"></div>
+  <div id="error-box"></div>
 
-  <div class="controls">
-    <p><strong>Controls:</strong></p>
-    <p>WASD - Move</p>
-    <p>D - Toggle Debug</p>
-    <p>G - Toggle Grid</p>
-    <p>H - Toggle Hitbox</p>
-    <p>P - Toggle Position</p>
-    <p>S - Toggle Stats</p>
-  </div>
+  <script>
+    window.onerror = function(msg, src, line, col, err) {
+      const box = document.getElementById('error-box');
+      box.style.display = 'block';
+      box.textContent += `[ERROR] ${msg}\n  at ${src}:${line}:${col}\n`;
+    };
+    window.addEventListener('unhandledrejection', e => {
+      const box = document.getElementById('error-box');
+      box.style.display = 'block';
+      box.textContent += `[PROMISE] ${e.reason}\n`;
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
   <script type="module" src="/src/game.js"></script>
