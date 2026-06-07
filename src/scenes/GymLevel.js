@@ -59,6 +59,7 @@ export class GymLevel extends Phaser.Scene {
   create() {
     this._loader.createAnimations();
     this._buildAllAnims();
+    this._initSounds();
 
     this.createWorld();
     this.createBullets();
@@ -70,8 +71,18 @@ export class GymLevel extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 320, 240);
     this.cameras.main.startFollow(this.player);
 
-    // Kick off first wave after a short delay
+    this.sfx.game_start.play();
     this.time.delayedCall(1200, () => this._startWave(0));
+  }
+
+  _initSounds() {
+    this.sfx = {
+      shot:        this.sound.add('sfx_shot',        { volume: 0.6 }),
+      ninja_death: this.sound.add('sfx_ninja_death', { volume: 0.7 }),
+      new_level:   this.sound.add('sfx_new_level',   { volume: 0.8 }),
+      game_start:  this.sound.add('sfx_game_start',  { volume: 0.7 }),
+      game_over:   this.sound.add('sfx_game_over',   { volume: 0.8 }),
+    };
   }
 
   // ─── Animations ────────────────────────────────────────────────────────────
@@ -196,6 +207,7 @@ export class GymLevel extends Phaser.Scene {
         this.attacking = true;
         this.player.play(`boy_attack_${this.facing}`);
         this._fireBullet();
+        this.sfx.shot.play();
         this.time.delayedCall(ATTACK_LOCK, () => { this.attacking = false; });
       }
     });
@@ -268,6 +280,7 @@ export class GymLevel extends Phaser.Scene {
           if (!bullet.active) return;
           bullet.setActive(false).setVisible(false);
           if (ninja.takeDamage()) {
+            this.sfx.ninja_death.play();
             this._checkWaveComplete();
           }
         });
@@ -294,6 +307,7 @@ export class GymLevel extends Phaser.Scene {
     this.waveActive = false;
     this._showBanner('WAVE CLEAR!', '#44ff88');
 
+    this.sfx.new_level.play();
     this.time.delayedCall(2200, () => {
       this.ninjas = this.ninjas.filter(n => n.alive);
       this.waveIndex++;
@@ -303,6 +317,7 @@ export class GymLevel extends Phaser.Scene {
 
   _gameOver() {
     this.physics.pause();
+    this.sfx.game_over.play();
     this._showBanner('GAME OVER', '#ff4444', 99999);
     this.waveText.setText('');
     this.ninjas.forEach(n => n.sprite.body?.setVelocity(0, 0));
