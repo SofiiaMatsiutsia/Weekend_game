@@ -33,7 +33,9 @@
             "frameWidth": 16,
             "frameHeight": 16,
             "frameCount": 4,
-            "frameRate": 12
+            "frameRate": 12,
+            "layout": "directional",
+            "directions": { "down": [0], "up": [1], "left": [2], "right": [3] }
           },
           "dead": {
             "path": "Character/Boy/SeparateAnim/Dead.png",
