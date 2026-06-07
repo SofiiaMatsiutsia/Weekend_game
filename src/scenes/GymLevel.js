@@ -160,9 +160,12 @@ export class GymLevel extends Phaser.Scene {
     b.body.reset(this.player.x, this.player.y);
     b.body.setAllowGravity(false);
 
-    const v = { right:[BULLET_SPEED,0], left:[-BULLET_SPEED,0], down:[0,BULLET_SPEED], up:[0,-BULLET_SPEED] };
-    const [vx, vy] = v[this.facing];
-    b.body.setVelocity(vx, vy);
+    // Shoot toward exact mouse position
+    const pointer = this.input.activePointer;
+    const dx = pointer.worldX - this.player.x;
+    const dy = pointer.worldY - this.player.y;
+    const dist = Math.hypot(dx, dy) || 1;
+    b.body.setVelocity((dx / dist) * BULLET_SPEED, (dy / dist) * BULLET_SPEED);
 
     this.time.delayedCall(BULLET_LIFE, () => {
       if (b.active) b.setActive(false).setVisible(false);
@@ -344,7 +347,7 @@ export class GymLevel extends Phaser.Scene {
       const dist = Math.hypot(dx, dy);
 
       if (dist > 6) {
-        const speed = 80;
+        const speed = 140;
         vx = (dx / dist) * speed;
         vy = (dy / dist) * speed;
 
