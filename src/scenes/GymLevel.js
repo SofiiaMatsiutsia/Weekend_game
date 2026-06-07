@@ -48,7 +48,6 @@ export class GymLevel extends Phaser.Scene {
     this.waveIndex = 0;
     this.waveActive = false;
     this.debugEnabled = true;
-    this._target   = null;   // { x, y } mouse click destination
   }
 
   preload() {
@@ -204,7 +203,6 @@ export class GymLevel extends Phaser.Scene {
     this.keys.attack.on('down', () => {
       if (!this.attacking) {
         this.attacking = true;
-        this._target = null;  // cancel movement while attacking
         this.player.play(`boy_attack_${this.facing}`);
         this._fireBullet();
         this.sfx.shot.play();
@@ -217,32 +215,6 @@ export class GymLevel extends Phaser.Scene {
       if (!this.debugEnabled) this.debugText.setText('');
     });
 
-    // Left-click to move
-    this.input.on('pointerdown', (pointer) => {
-      if (pointer.leftButtonDown()) {
-        // Convert screen coords to world coords (camera may be offset)
-        const wx = pointer.worldX;
-        const wy = pointer.worldY;
-        this._target = { x: wx, y: wy };
-        this._spawnClickMarker(wx, wy);
-      }
-    });
-  }
-
-  _spawnClickMarker(x, y) {
-    const marker = this.add.graphics().setDepth(8);
-    marker.lineStyle(1, 0xffffff, 0.8);
-    marker.strokeCircle(0, 0, 4);
-    marker.strokeCircle(0, 0, 2);
-    marker.setPosition(x, y);
-    this.tweens.add({
-      targets: marker,
-      alpha: 0,
-      scaleX: 2,
-      scaleY: 2,
-      duration: 350,
-      onComplete: () => marker.destroy(),
-    });
   }
 
   // ─── HUD ───────────────────────────────────────────────────────────────────
@@ -365,20 +337,17 @@ export class GymLevel extends Phaser.Scene {
   update() {
     let vx = 0, vy = 0;
 
-    if (!this.attacking && this._target) {
-      const dx   = this._target.x - this.player.x;
-      const dy   = this._target.y - this.player.y;
+    if (!this.attacking) {
+      const pointer = this.input.activePointer;
+      const dx   = pointer.worldX - this.player.x;
+      const dy   = pointer.worldY - this.player.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist < 3) {
-        // Reached destination
-        this._target = null;
-      } else {
+      if (dist > 6) {
         const speed = 80;
         vx = (dx / dist) * speed;
         vy = (dy / dist) * speed;
 
-        // Update facing based on dominant axis
         if (Math.abs(dx) > Math.abs(dy)) {
           this.facing = dx > 0 ? 'right' : 'left';
         } else {
@@ -413,7 +382,7 @@ export class GymLevel extends Phaser.Scene {
         `hp     ${this.hp}/${PLAYER_HP}`,
         `wave   ${this.waveIndex + 1}  enemies ${this.ninjas.filter(n => n.alive).length}`,
         '─────────────────────',
-        'CLICK to move | SPACE attack',
+        'MOUSE to move | SPACE attack',
       ].join('\n'));
     }
   }
