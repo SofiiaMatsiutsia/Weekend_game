@@ -1,0 +1,248 @@
+{
+  "version": "1.0.0",
+  "assets": {
+    "characters": {
+      "boy": {
+        "name": "Boy",
+        "spriteSheet": {
+          "path": "Character/Boy/SpriteSheet.png",
+          "width": 64,
+          "height": 112
+        },
+        "animations": {
+          "idle": {
+            "path": "Character/Boy/SeparateAnim/Idle.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 8,
+            "layout": "directional",
+            "directions": { "down": [0], "up": [1], "left": [2], "right": [3] }
+          },
+          "walk": {
+            "path": "Character/Boy/SeparateAnim/Walk.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 16,
+            "frameRate": 10,
+            "layout": "directional",
+            "directions": { "down": [0,4,8,12], "up": [1,5,9,13], "left": [2,6,10,14], "right": [3,7,11,15] }
+          },
+          "attack": {
+            "path": "Character/Boy/SeparateAnim/Attack.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 12
+          },
+          "dead": {
+            "path": "Character/Boy/SeparateAnim/Dead.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 6
+          },
+          "item": {
+            "path": "Character/Boy/SeparateAnim/Item.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 8
+          }
+        },
+        "faceset": {
+          "path": "Character/Boy/Faceset.png"
+        }
+      },
+      "ninjaBlue": {
+        "name": "Ninja Blue",
+        "spriteSheet": {
+          "path": "Character/NinjaBlue/SpriteSheet.png",
+          "width": 64,
+          "height": 112
+        },
+        "animations": {
+          "idle": {
+            "path": "Character/NinjaBlue/SeparateAnim/Idle.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 8
+          },
+          "walk": {
+            "path": "Character/NinjaBlue/SeparateAnim/Walk.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 16,
+            "frameRate": 10
+          },
+          "attack": {
+            "path": "Character/NinjaBlue/SeparateAnim/Attack.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 12
+          },
+          "dead": {
+            "path": "Character/NinjaBlue/SeparateAnim/Dead.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 6
+          },
+          "item": {
+            "path": "Character/NinjaBlue/SeparateAnim/Item.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 8
+          }
+        },
+        "faceset": {
+          "path": "Character/NinjaBlue/Faceset.png"
+        }
+      },
+      "ninjaRed": {
+        "name": "Ninja Red",
+        "spriteSheet": {
+          "path": "Character/NinjaRed/SpriteSheet.png",
+          "width": 64,
+          "height": 112
+        },
+        "animations": {
+          "idle": {
+            "path": "Character/NinjaRed/SeparateAnim/Idle.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 8
+          },
+          "walk": {
+            "path": "Character/NinjaRed/SeparateAnim/Walk.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 16,
+            "frameRate": 10
+          },
+          "attack": {
+            "path": "Character/NinjaRed/SeparateAnim/Attack.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 12
+          },
+          "dead": {
+            "path": "Character/NinjaRed/SeparateAnim/Dead.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 6
+          },
+          "item": {
+            "path": "Character/NinjaRed/SeparateAnim/Item.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 8
+          }
+        },
+        "faceset": {
+          "path": "Character/NinjaRed/Faceset.png"
+        }
+      },
+      "ninjaYellow": {
+        "name": "Ninja Yellow",
+        "spriteSheet": {
+          "path": "Character/NinjaYellow/SpriteSheet.png",
+          "width": 64,
+          "height": 112
+        },
+        "animations": {
+          "idle": {
+            "path": "Character/NinjaYellow/SeparateAnim/Idle.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 8
+          },
+          "walk": {
+            "path": "Character/NinjaYellow/SeparateAnim/Walk.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 16,
+            "frameRate": 10
+          },
+          "attack": {
+            "path": "Character/NinjaYellow/SeparateAnim/Attack.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 4,
+            "frameRate": 12
+          },
+          "dead": {
+            "path": "Character/NinjaYellow/SeparateAnim/Dead.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 6
+          },
+          "item": {
+            "path": "Character/NinjaYellow/SeparateAnim/Item.png",
+            "frameWidth": 16,
+            "frameHeight": 16,
+            "frameCount": 1,
+            "frameRate": 8
+          }
+        },
+        "faceset": {
+          "path": "Character/NinjaYellow/Faceset.png"
+        }
+      }
+    },
+    "effects": {
+      "attack": {
+        "circularSlash": {
+          "path": "FX/Attack/CircularSlash/SpriteSheet.png",
+          "width": 128,
+          "height": 32,
+          "frameWidth": 32,
+          "frameHeight": 32,
+          "frameCount": 4,
+          "frameRate": 15
+        }
+      }
+    },
+    "tiles": {
+      "floor": {
+        "path": "Tiles/TilesetFloor.png",
+        "width": 352,
+        "height": 417,
+        "tileWidth": 16,
+        "tileHeight": 16,
+        "description": "Floor tiles"
+      },
+      "nature": {
+        "path": "Tiles/TilesetNature.png",
+        "width": 384,
+        "height": 336,
+        "tileWidth": 16,
+        "tileHeight": 16,
+        "description": "Nature/grass tiles"
+      },
+      "towers": {
+        "path": "Tiles/TilesetTowers.png",
+        "width": 384,
+        "height": 96,
+        "tileWidth": 16,
+        "tileHeight": 16,
+        "description": "Tower/structure tiles"
+      }
+    }
+  },
+  "config": {
+    "baseUrl": "/assets",
+    "pixelArt": true,
+    "defaultTileSize": 16,
+    "defaultCharacterSize": 16
+  }
+}
