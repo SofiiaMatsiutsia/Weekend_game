@@ -79,7 +79,7 @@ export class GymLevel extends Phaser.Scene {
     this.sfx = {
       shot:        this.sound.add('sfx_shot',        { volume: 0.6 }),
       ninja_death: this.sound.add('sfx_ninja_death', { volume: 0.7 }),
-      new_level:   this.sound.add('sfx_new_level',   { volume: 0.8 }),
+      new_wave:    this.sound.add('sfx_new_level',   { volume: 0.8 }),
       game_start:  this.sound.add('sfx_game_start',  { volume: 0.7 }),
       game_over:   this.sound.add('sfx_game_over',   { volume: 0.8 }),
     };
@@ -307,7 +307,7 @@ export class GymLevel extends Phaser.Scene {
     this.waveActive = false;
     this._showBanner('WAVE CLEAR!', '#44ff88');
 
-    this.sfx.new_level.play();
+    this.sfx.new_wave.play();
     this.time.delayedCall(2200, () => {
       this.ninjas = this.ninjas.filter(n => n.alive);
       this.waveIndex++;
