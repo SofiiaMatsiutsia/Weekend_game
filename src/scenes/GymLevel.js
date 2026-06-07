@@ -43,11 +43,12 @@ export class GymLevel extends Phaser.Scene {
     this.facing    = 'down';
     this.attacking = false;
     this.bullets   = null;
-    this.ninjas    = [];          // active Ninja instances
+    this.ninjas    = [];
     this.hp        = PLAYER_HP;
     this.waveIndex = 0;
     this.waveActive = false;
     this.debugEnabled = true;
+    this._target   = null;   // { x, y } mouse click destination
   }
 
   preload() {
@@ -196,10 +197,6 @@ export class GymLevel extends Phaser.Scene {
 
   createKeys() {
     this.keys = this.input.keyboard.addKeys({
-      up:     Phaser.Input.Keyboard.KeyCodes.W,
-      down:   Phaser.Input.Keyboard.KeyCodes.S,
-      left:   Phaser.Input.Keyboard.KeyCodes.A,
-      right:  Phaser.Input.Keyboard.KeyCodes.D,
       attack: Phaser.Input.Keyboard.KeyCodes.SPACE,
       debug:  Phaser.Input.Keyboard.KeyCodes.BACKTICK,
     });
@@ -207,6 +204,7 @@ export class GymLevel extends Phaser.Scene {
     this.keys.attack.on('down', () => {
       if (!this.attacking) {
         this.attacking = true;
+        this._target = null;  // cancel movement while attacking
         this.player.play(`boy_attack_${this.facing}`);
         this._fireBullet();
         this.sfx.shot.play();
@@ -217,6 +215,33 @@ export class GymLevel extends Phaser.Scene {
     this.keys.debug.on('down', () => {
       this.debugEnabled = !this.debugEnabled;
       if (!this.debugEnabled) this.debugText.setText('');
+    });
+
+    // Left-click to move
+    this.input.on('pointerdown', (pointer) => {
+      if (pointer.leftButtonDown()) {
+        // Convert screen coords to world coords (camera may be offset)
+        const wx = pointer.worldX;
+        const wy = pointer.worldY;
+        this._target = { x: wx, y: wy };
+        this._spawnClickMarker(wx, wy);
+      }
+    });
+  }
+
+  _spawnClickMarker(x, y) {
+    const marker = this.add.graphics().setDepth(8);
+    marker.lineStyle(1, 0xffffff, 0.8);
+    marker.strokeCircle(0, 0, 4);
+    marker.strokeCircle(0, 0, 2);
+    marker.setPosition(x, y);
+    this.tweens.add({
+      targets: marker,
+      alpha: 0,
+      scaleX: 2,
+      scaleY: 2,
+      duration: 350,
+      onComplete: () => marker.destroy(),
     });
   }
 
@@ -337,22 +362,29 @@ export class GymLevel extends Phaser.Scene {
 
   // ─── Update ────────────────────────────────────────────────────────────────
 
-  update(_, delta) {
-    const { up, down, left, right } = this.keys;
+  update() {
     let vx = 0, vy = 0;
 
-    if (!this.attacking) {
-      const speed = 80;
-      if (left.isDown)  vx = -speed;
-      if (right.isDown) vx =  speed;
-      if (up.isDown)    vy = -speed;
-      if (down.isDown)  vy =  speed;
-      if (vx && vy) { vx *= 0.707; vy *= 0.707; }
+    if (!this.attacking && this._target) {
+      const dx   = this._target.x - this.player.x;
+      const dy   = this._target.y - this.player.y;
+      const dist = Math.hypot(dx, dy);
 
-      if (left.isDown)       this.facing = 'left';
-      else if (right.isDown) this.facing = 'right';
-      else if (up.isDown)    this.facing = 'up';
-      else if (down.isDown)  this.facing = 'down';
+      if (dist < 3) {
+        // Reached destination
+        this._target = null;
+      } else {
+        const speed = 80;
+        vx = (dx / dist) * speed;
+        vy = (dy / dist) * speed;
+
+        // Update facing based on dominant axis
+        if (Math.abs(dx) > Math.abs(dy)) {
+          this.facing = dx > 0 ? 'right' : 'left';
+        } else {
+          this.facing = dy > 0 ? 'down' : 'up';
+        }
+      }
     }
 
     this.player.body.setVelocity(vx, vy);
@@ -381,7 +413,7 @@ export class GymLevel extends Phaser.Scene {
         `hp     ${this.hp}/${PLAYER_HP}`,
         `wave   ${this.waveIndex + 1}  enemies ${this.ninjas.filter(n => n.alive).length}`,
         '─────────────────────',
-        'WASD move | SPACE attack',
+        'CLICK to move | SPACE attack',
       ].join('\n'));
     }
   }
